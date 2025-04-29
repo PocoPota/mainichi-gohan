@@ -60,7 +60,7 @@ const UploadExample = () => {
      * - Updates the upload progress.
      * - Catches and processes errors accordingly.
      */
-    const handleUpload = async () => {
+    const fileUpload = async () => {
         // Access the file input element using the ref
         const fileInput = fileInputRef.current;
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
@@ -98,7 +98,8 @@ const UploadExample = () => {
                 // Abort signal to allow cancellation of the upload if needed.
                 abortSignal: abortController.signal,
             });
-            console.log("Upload response:", uploadResponse);
+            // console.log("Upload response:", uploadResponse);
+            return uploadResponse;
         } catch (error) {
             // Handle specific error types provided by the ImageKit SDK.
             if (error instanceof ImageKitAbortError) {
@@ -113,8 +114,14 @@ const UploadExample = () => {
                 // Handle any other errors that may occur.
                 console.error("Upload error:", error);
             }
+            return {'error': error}
         }
     };
+
+    const handleUpload = async () => {
+        const fileData = await fileUpload();
+        console.log(fileData);
+    }
 
     return (
         <>
