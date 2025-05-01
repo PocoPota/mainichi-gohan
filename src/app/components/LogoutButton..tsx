@@ -1,9 +1,9 @@
 // components/LogoutButton.tsx (例)
-'use client';
+"use client";
 
 import { getAuth, signOut } from "firebase/auth";
-import { useRouter } from 'next/navigation'; // App Routerを使用する場合
-import { useState } from 'react';
+import { useRouter } from "next/navigation"; // App Routerを使用する場合
+import { useState } from "react";
 
 export default function LogoutButton() {
   const auth = getAuth();
@@ -16,7 +16,7 @@ export default function LogoutButton() {
       await signOut(auth);
       // ログアウト成功
       console.log("ログアウトしました");
-      router.push('/');
+      router.push("/");
     } catch (error: any) {
       console.error("ログアウトエラー:", error);
       // エラー処理
@@ -27,7 +27,7 @@ export default function LogoutButton() {
 
   return (
     <button onClick={handleLogout} disabled={loading}>
-      {loading ? 'ログアウト中...' : 'ログアウト'}
+      {loading ? "ログアウト中..." : "ログアウト"}
     </button>
   );
 }

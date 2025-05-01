@@ -1,9 +1,9 @@
 // context/AuthContext.tsx (例)
-'use client';
+"use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { User } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 interface AuthContextType {
   currentUser: User | null;
@@ -17,7 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true); // 初期状態は読み込み中
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setLoading(false); // 状態が確定したら読み込み終了
     });
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

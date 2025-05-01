@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
 type Props = {
-  isLogin: boolean
-}
+  isLogin: boolean;
+};
 
 export default function PostButtons(props: Props) {
-  if(props.isLogin){
+  if (props.isLogin) {
     return (
       <div>
         <div>
@@ -16,7 +16,7 @@ export default function PostButtons(props: Props) {
         </div>
       </div>
     );
-  }else{
+  } else {
     return (
       <div>
         <a href="/settings">設定</a>
