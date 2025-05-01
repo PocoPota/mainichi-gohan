@@ -7,8 +7,9 @@ import {
   ImageKitUploadNetworkError,
   upload,
 } from "@imagekit/next";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
+
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
 const UploadExample = () => {
   // アクセス権チェック
@@ -29,9 +30,11 @@ const UploadExample = () => {
   }
 
   // 未ログイン時の処理
-  if(!currentUser){
-    return(
-      <div>未ログインです。<a href="/">トップに戻る</a></div>
+  if (!currentUser) {
+    return (
+      <div>
+        未ログインです。<a href="/">トップに戻る</a>
+      </div>
     );
   }
 
