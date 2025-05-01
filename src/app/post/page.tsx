@@ -11,7 +11,7 @@ import { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
 
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
-const UploadExample = () => {
+export default function Post(){
   // アクセス権チェック
   const { currentUser, loading } = useAuth();
 
@@ -138,9 +138,16 @@ const UploadExample = () => {
     }
   };
 
+  const dataUpload = (filedata: Object) =>{
+    // ここにFirestoreアップロード処理
+    return (filedata);
+  }
+
   const handleUpload = async () => {
     const fileData = await fileUpload();
-    console.log(fileData);
+    if(fileData){
+      dataUpload(fileData);
+    }
   };
 
   return (
@@ -157,5 +164,3 @@ const UploadExample = () => {
     </>
   );
 };
-
-export default UploadExample;
