@@ -7,7 +7,7 @@ import {
   ImageKitUploadNetworkError,
   upload,
 } from "@imagekit/next";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
 
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
