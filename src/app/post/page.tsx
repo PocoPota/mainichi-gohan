@@ -7,21 +7,12 @@ import {
   ImageKitUploadNetworkError,
   upload,
 } from "@imagekit/next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
-
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
 const UploadExample = () => {
   // アクセス権チェック
   const { currentUser, loading } = useAuth();
-
-  // 認証状態のロード中は何も表示しないか、ローディング表示
-  if (loading) {
-    return <p>認証状態を確認中...</p>;
-  }
-
-  // ログインしていない場合はログインページにリダイレクト
-  
 
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
@@ -31,6 +22,18 @@ const UploadExample = () => {
 
   // Create an AbortController instance to provide an option to cancel the upload if needed.
   const abortController = new AbortController();
+
+  // 認証状態のロード中は何も表示しないか、ローディング表示
+  if (loading) {
+    return <p>認証状態を確認中...</p>;
+  }
+
+  // 未ログイン時の処理
+  if(!currentUser){
+    return(
+      <div>未ログインです。<a href="/">トップに戻る</a></div>
+    );
+  }
 
   /**
    * Authenticates and retrieves the necessary upload credentials from the server.
