@@ -11,7 +11,7 @@ import { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
 
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
-export default function Post(){
+export default function Post() {
   // アクセス権チェック
   const { currentUser, loading } = useAuth();
 
@@ -55,7 +55,7 @@ export default function Post(){
         // If the server response is not successful, extract the error text for debugging.
         const errorText = await response.text();
         throw new Error(
-          `Request failed with status ${response.status}: ${errorText}`
+          `Request failed with status ${response.status}: ${errorText}`,
         );
       }
 
@@ -138,14 +138,14 @@ export default function Post(){
     }
   };
 
-  const dataUpload = (filedata: Object) =>{
+  const dataUpload = (filedata: Object) => {
     // ここにFirestoreアップロード処理
-    return (filedata);
-  }
+    return filedata;
+  };
 
   const handleUpload = async () => {
     const fileData = await fileUpload();
-    if(fileData){
+    if (fileData) {
       dataUpload(fileData);
     }
   };
@@ -163,4 +163,4 @@ export default function Post(){
       Upload progress: <progress value={progress} max={100}></progress>
     </>
   );
-};
+}
