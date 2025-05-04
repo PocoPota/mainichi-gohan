@@ -1,6 +1,6 @@
 "use client";
 
-import styles from './ContentsGrid.module.css'
+import styles from './ContentsGrid.module.scss'
 
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore'; // getDocs をインポート'
