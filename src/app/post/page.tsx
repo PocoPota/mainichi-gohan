@@ -28,14 +28,16 @@ export default function Post() {
 
   // firestore用
   const [inputValue, setInputValue] = useState({
-    date: '',
-    comment: ''
+    date: "",
+    comment: "",
   });
 
   // 入力値更新
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
-  }
+  };
 
   // 認証状態のロード中は何も表示しないか、ローディング表示
   if (loading) {
@@ -151,27 +153,26 @@ export default function Post() {
     }
   };
 
-
-  const dataUpload = async(filedata: Object) => {
+  const dataUpload = async (filedata: Object) => {
     // ここにFirestoreアップロード処理
     console.log(inputValue);
     console.log(filedata);
 
     try {
-      const reFiledata = filedata as {url: string}
+      const reFiledata = filedata as { url: string };
       // Firestore にデータを追加
       const docRef = await addDoc(collection(db, "posts"), {
         timestamp: new Date(),
         date: inputValue.date,
         comment: inputValue.comment,
-        imageUrl: reFiledata.url
+        imageUrl: reFiledata.url,
       });
       console.log("Document written with ID: ", docRef.id);
 
       // フォームをクリア
       setInputValue({
-        date: '',
-        comment: ''
+        date: "",
+        comment: "",
       });
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -187,23 +188,32 @@ export default function Post() {
 
   return (
     <>
-    <form>
-      <div>
-        <label>ごはん画像</label>
-        <input type="file" accept=".jpg, .jpeg, .png" ref={fileInputRef} />
-      </div>
-      <div>
-        <label>日時</label>
-        <input type="datetime-local" onChange={handleInputChange} value={inputValue.date} name="date"></input>
-      </div>
-      <div>
-        <label>コメント</label>
-        <textarea onChange={handleInputChange} value={inputValue.comment} name="comment"></textarea>
-      </div>
-      <input type="button" onClick={handleUpload} value="投稿"></input>
-      <br />
-      Upload progress: <progress value={progress} max={100}></progress>
-    </form>
+      <form>
+        <div>
+          <label>ごはん画像</label>
+          <input type="file" accept=".jpg, .jpeg, .png" ref={fileInputRef} />
+        </div>
+        <div>
+          <label>日時</label>
+          <input
+            type="datetime-local"
+            onChange={handleInputChange}
+            value={inputValue.date}
+            name="date"
+          ></input>
+        </div>
+        <div>
+          <label>コメント</label>
+          <textarea
+            onChange={handleInputChange}
+            value={inputValue.comment}
+            name="comment"
+          ></textarea>
+        </div>
+        <input type="button" onClick={handleUpload} value="投稿"></input>
+        <br />
+        Upload progress: <progress value={progress} max={100}></progress>
+      </form>
     </>
   );
 }

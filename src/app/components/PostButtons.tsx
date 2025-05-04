@@ -1,6 +1,6 @@
 "use client";
 
-import styles from './PostsButtons.module.scss'
+import styles from "./PostsButtons.module.scss";
 
 type Props = {
   isLogin: boolean;
