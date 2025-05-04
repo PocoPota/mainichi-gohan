@@ -1,10 +1,10 @@
 "use client";
 
-import styles from './ContentsGrid.module.css'
+import styles from "./ContentsGrid.module.scss";
 
-import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore'; // getDocs をインポート'
-import { db } from '../lib/firebase';
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore"; // getDocs をインポート'
+import { db } from "../lib/firebase";
 
 interface Item {
   comment: string;
@@ -22,17 +22,17 @@ export default function ContentsGrid() {
     const fetchItems = async () => {
       try {
         // 'items' コレクションへの参照を作成
-        const querySnapshot = await getDocs(collection(db, 'posts'));
+        const querySnapshot = await getDocs(collection(db, "posts"));
 
         // 取得したドキュメントを加工してStateに格納
-        const itemsList: Item[] = querySnapshot.docs.map(doc => ({
+        const itemsList: Item[] = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data() as Omit<Item, 'id'> // ドキュメントデータをItem型にキャスト
+          ...(doc.data() as Omit<Item, "id">), // ドキュメントデータをItem型にキャスト
         }));
         setItems(itemsList);
       } catch (err) {
         console.error("Error fetching items: ", err);
-        setError('アイテムの取得に失敗しました。'); // エラーメッセージ
+        setError("アイテムの取得に失敗しました。"); // エラーメッセージ
       } finally {
         setLoading(false); // 読み込み完了
       }
@@ -57,9 +57,11 @@ export default function ContentsGrid() {
         <p>アイテムが見つかりませんでした。</p>
       ) : (
         <ul className={styles.contentsGrid}>
-          {items.map(item => (
+          {items.map((item) => (
             <li className={styles.post} key={item.id}>
-              <div><img src={item.imageUrl}></img></div>
+              <div>
+                <img src={item.imageUrl}></img>
+              </div>
               {item.comment}
             </li>
           ))}

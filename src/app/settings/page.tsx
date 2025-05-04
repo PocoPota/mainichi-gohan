@@ -2,7 +2,7 @@
 
 import { useAuth } from "../context/authContext";
 import SignInButton from "../components/SignInButton";
-import LogoutButton from "../components/LogoutButton.";
+import LogoutButton from "../components/LogoutButton";
 
 export default function Settings() {
   const { currentUser, loading } = useAuth();
