@@ -9,6 +9,8 @@ import {
 } from "@imagekit/next";
 import { useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
+import { db } from "../lib/firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
 export default function Post() {
@@ -23,6 +25,17 @@ export default function Post() {
 
   // Create an AbortController instance to provide an option to cancel the upload if needed.
   const abortController = new AbortController();
+
+  // firestore用
+  const [inputValue, setInputValue] = useState({
+    date: '',
+    comment: ''
+  });
+
+  // 入力値更新
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+    setInputValue({ ...inputValue, [e.target.name]: e.target.value });
+  }
 
   // 認証状態のロード中は何も表示しないか、ローディング表示
   if (loading) {
@@ -138,9 +151,31 @@ export default function Post() {
     }
   };
 
-  const dataUpload = (filedata: Object) => {
+
+  const dataUpload = async(filedata: Object) => {
     // ここにFirestoreアップロード処理
-    return filedata;
+    console.log(inputValue);
+    console.log(filedata);
+
+    try {
+      const reFiledata = filedata as {url: string}
+      // Firestore にデータを追加
+      const docRef = await addDoc(collection(db, "posts"), {
+        timestamp: new Date(),
+        date: inputValue.date,
+        comment: inputValue.comment,
+        imageUrl: reFiledata.url
+      });
+      console.log("Document written with ID: ", docRef.id);
+
+      // フォームをクリア
+      setInputValue({
+        date: '',
+        comment: ''
+      });
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
 
   const handleUpload = async () => {
@@ -152,15 +187,23 @@ export default function Post() {
 
   return (
     <>
-      {/* File input element using React ref */}
-      <input type="file" ref={fileInputRef} />
-      {/* Button to trigger the upload process */}
-      <button type="button" onClick={handleUpload}>
-        Upload file
-      </button>
+    <form>
+      <div>
+        <label>ごはん画像</label>
+        <input type="file" accept=".jpg, .jpeg, .png" ref={fileInputRef} />
+      </div>
+      <div>
+        <label>日時</label>
+        <input type="datetime-local" onChange={handleInputChange} value={inputValue.date} name="date"></input>
+      </div>
+      <div>
+        <label>コメント</label>
+        <textarea onChange={handleInputChange} value={inputValue.comment} name="comment"></textarea>
+      </div>
+      <input type="button" onClick={handleUpload} value="投稿"></input>
       <br />
-      {/* Display the current upload progress */}
       Upload progress: <progress value={progress} max={100}></progress>
+    </form>
     </>
   );
 }

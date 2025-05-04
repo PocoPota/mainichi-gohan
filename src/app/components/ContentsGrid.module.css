@@ -1,0 +1,10 @@
+.contentsGrid{
+  column-count: 3;
+}
+
+.post{
+  break-inside: avoid;
+  margin-bottom: 20px;
+  background: aquamarine;
+  border-radius: 10px;
+}
