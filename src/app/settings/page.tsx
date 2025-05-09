@@ -3,7 +3,7 @@
 import { useAuth } from "../context/authContext";
 import SignInButton from "../components/SignInButton";
 import LogoutButton from "../components/LogoutButton";
-import styles from "./page.module.scss"
+import styles from "./page.module.scss";
 
 export default function Settings() {
   const { currentUser, loading } = useAuth();
@@ -31,7 +31,12 @@ export default function Settings() {
       <h1>設定</h1>
       <div className={styles.userInfo}>
         {currentUser.photoURL && (
-          <img src={currentUser.photoURL} alt="Profile" width="50" height="50" />
+          <img
+            src={currentUser.photoURL}
+            alt="Profile"
+            width="50"
+            height="50"
+          />
         )}
         <p>ようこそ、{currentUser.displayName || currentUser.email} さん！</p>
       </div>

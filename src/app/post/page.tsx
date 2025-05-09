@@ -1,4 +1,4 @@
-"use client"; // This component must be a client component
+"use client";
 
 import {
   ImageKitAbortError,
@@ -7,61 +7,40 @@ import {
   ImageKitUploadNetworkError,
   upload,
 } from "@imagekit/next";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { db } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 import styles from "./page.module.scss";
-import {
-  Input,
-  ConfigProvider,
-  Upload,
-  DatePicker,
-  TimePicker,
-  DatePickerProps,
-  TimePickerProps,
-  UploadFile,
-} from "antd";
+import { Input, Upload, DatePicker, UploadFile, Button } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 
-// UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
+const { TextArea } = Input;
+
 export default function Post() {
   // アクセス権チェック
   const { currentUser, loading } = useAuth();
 
-  // State to keep track of the current upload progress (percentage)
+  // プログレスバー
   const [progress, setProgress] = useState(0);
 
+  // フォーム情報の状態管理
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-
   const [dateTime, setDateTime] = useState<Dayjs>(dayjs());
-
-  // Create an AbortController instance to provide an option to cancel the upload if needed.
-  const abortController = new AbortController();
-
-  // firestore用
-  const [inputValue, setInputValue] = useState({
-    date: "",
-    comment: "",
-  });
-
-  // 入力値更新
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setInputValue({ ...inputValue, [e.target.name]: e.target.value });
-  };
+  const [comment, setComment] = useState("");
 
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => {
     setFileList(fileList);
   };
-
   const handleDateTimeChange = (value: Dayjs) => {
     setDateTime(value);
   };
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(e.target.value);
+  };
 
-  // 認証状態のロード中は何も表示しないか、ローディング表示
+  // 認証ロード中の処理
   if (loading) {
     return (
       <div className={styles.post}>
@@ -79,15 +58,8 @@ export default function Post() {
     );
   }
 
-  /**
-   * Authenticates and retrieves the necessary upload credentials from the server.
-   *
-   * This function calls the authentication API endpoint to receive upload parameters like signature,
-   * expire time, token, and publicKey.
-   *
-   * @returns {Promise<{signature: string, expire: string, token: string, publicKey: string}>} The authentication parameters.
-   * @throws {Error} Throws an error if the authentication request fails.
-   */
+  // ImageKitアップロード関連
+  const abortController = new AbortController();
   const authenticator = async () => {
     try {
       // Perform the request to the upload authentication endpoint.
@@ -96,7 +68,7 @@ export default function Post() {
         // If the server response is not successful, extract the error text for debugging.
         const errorText = await response.text();
         throw new Error(
-          `Request failed with status ${response.status}: ${errorText}`
+          `Request failed with status ${response.status}: ${errorText}`,
         );
       }
 
@@ -111,16 +83,7 @@ export default function Post() {
     }
   };
 
-  /**
-   * Handles the file upload process.
-   *
-   * This function:
-   * - Validates file selection.
-   * - Retrieves upload authentication credentials.
-   * - Initiates the file upload via the ImageKit SDK.
-   * - Updates the upload progress.
-   * - Catches and processes errors accordingly.
-   */
+  // ImageKitへのアップロード処理
   const fileUpload = async () => {
     const fileInput = fileList;
     if (!fileInput || fileInput.length === 0) {
@@ -179,47 +142,35 @@ export default function Post() {
     }
   };
 
+  // Firestore DBへのアップロード
   const dataUpload = async (filedata: Object) => {
-    // ここにFirestoreアップロード処理
-    console.log(inputValue);
-    console.log(filedata);
-    console.log(dateTime);
-    
-
     try {
       const reFiledata = filedata as { url: string };
       // Firestore にデータを追加
       const docRef = await addDoc(collection(db, "posts"), {
         timestamp: new Date(),
-        // date: inputValue.date,
         date: dateTime.toISOString(),
-        comment: inputValue.comment,
+        comment: comment,
         imageUrl: reFiledata.url,
       });
-      console.log("Document written with ID: ", docRef.id);
 
       // フォームをクリア
       setFileList([]);
       setDateTime(dayjs());
-      setInputValue({
-        date: "",
-        comment: "",
-      });
+      setComment("");
+      setProgress(0);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
   };
 
+  // アップロード押下時
   const handleUpload = async () => {
     const fileData = await fileUpload();
-    console.log(fileData);
     if (fileData) {
       dataUpload(fileData);
     }
   };
-
-  // デザインデータ
-  const { TextArea } = Input;
 
   return (
     <div className={styles.post}>
@@ -249,16 +200,17 @@ export default function Post() {
         <div>
           <label>コメント</label>
           <TextArea
-            onChange={handleInputChange}
-            value={inputValue.comment}
+            onChange={handleCommentChange}
+            value={comment}
             placeholder="コメント"
             name="comment"
             rows={3}
             showCount
           ></TextArea>
         </div>
-        <input type="button" onClick={handleUpload} value="投稿"></input>
-        <br />
+        <Button color="default" variant="solid" onClick={handleUpload}>
+          投稿
+        </Button>
         Upload progress: <progress value={progress} max={100}></progress>
       </form>
     </div>

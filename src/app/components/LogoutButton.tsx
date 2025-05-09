@@ -28,7 +28,12 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button color="default" variant="solid" onClick={handleLogout} disabled={loading}>
+    <Button
+      color="default"
+      variant="solid"
+      onClick={handleLogout}
+      disabled={loading}
+    >
       {loading ? "ログアウト中..." : "ログアウト"}
     </Button>
   );
