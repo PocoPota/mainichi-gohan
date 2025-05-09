@@ -5,6 +5,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation"; // App Routerを使用する場合
 import { useState } from "react";
 
+import { Button } from "antd";
+
 export default function LogoutButton() {
   const auth = getAuth();
   const router = useRouter(); // App Routerを使用する場合
@@ -26,8 +28,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} disabled={loading}>
+    <Button color="default" variant="solid" onClick={handleLogout} disabled={loading}>
       {loading ? "ログアウト中..." : "ログアウト"}
-    </button>
+    </Button>
   );
 }
