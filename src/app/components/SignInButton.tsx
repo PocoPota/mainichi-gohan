@@ -27,7 +27,12 @@ export default function SignInButton() {
   };
 
   return (
-    <Button color="default" variant="solid" onClick={handleSignIn} disabled={loading}>
+    <Button
+      color="default"
+      variant="solid"
+      onClick={handleSignIn}
+      disabled={loading}
+    >
       {loading ? "サインイン中..." : "Googleでサインイン"}
     </Button>
   );
