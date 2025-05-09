@@ -5,6 +5,8 @@ import { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../lib/firebase"; // 上記で作成したfirebase.tsからauthをインポート
 
+import { Button } from "antd";
+
 export default function SignInButton() {
   const [loading, setLoading] = useState(false);
 
@@ -25,8 +27,8 @@ export default function SignInButton() {
   };
 
   return (
-    <button onClick={handleSignIn} disabled={loading}>
+    <Button color="default" variant="solid" onClick={handleSignIn} disabled={loading}>
       {loading ? "サインイン中..." : "Googleでサインイン"}
-    </button>
+    </Button>
   );
 }
