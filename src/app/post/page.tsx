@@ -12,6 +12,19 @@ import { useAuth } from "../context/authContext";
 import { db } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
+import styles from "./page.module.scss";
+import {
+  Input,
+  ConfigProvider,
+  Upload,
+  DatePicker,
+  TimePicker,
+  DatePickerProps,
+  TimePickerProps,
+  UploadFile,
+} from "antd";
+import dayjs, { Dayjs } from "dayjs";
+
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
 export default function Post() {
   // アクセス権チェック
@@ -20,8 +33,9 @@ export default function Post() {
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
 
-  // Create a ref for the file input element to access its files easily
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const [dateTime, setDateTime] = useState<Dayjs>(dayjs());
 
   // Create an AbortController instance to provide an option to cancel the upload if needed.
   const abortController = new AbortController();
@@ -34,20 +48,32 @@ export default function Post() {
 
   // 入力値更新
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => {
+    setFileList(fileList);
+  };
+
+  const handleDateTimeChange = (value: Dayjs) => {
+    setDateTime(value);
+  };
+
   // 認証状態のロード中は何も表示しないか、ローディング表示
   if (loading) {
-    return <p>認証状態を確認中...</p>;
+    return (
+      <div className={styles.post}>
+        <p>認証状態を確認中...</p>
+      </div>
+    );
   }
 
   // 未ログイン時の処理
   if (!currentUser) {
     return (
-      <div>
+      <div className={styles.post}>
         未ログインです。<a href="/">トップに戻る</a>
       </div>
     );
@@ -70,7 +96,7 @@ export default function Post() {
         // If the server response is not successful, extract the error text for debugging.
         const errorText = await response.text();
         throw new Error(
-          `Request failed with status ${response.status}: ${errorText}`,
+          `Request failed with status ${response.status}: ${errorText}`
         );
       }
 
@@ -96,15 +122,15 @@ export default function Post() {
    * - Catches and processes errors accordingly.
    */
   const fileUpload = async () => {
-    // Access the file input element using the ref
-    const fileInput = fileInputRef.current;
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+    const fileInput = fileList;
+    if (!fileInput || fileInput.length === 0) {
       alert("Please select a file to upload");
       return;
     }
-
-    // Extract the first file from the file input
-    const file = fileInput.files[0];
+    const files = fileList
+      .map((file) => file.originFileObj)
+      .filter(Boolean) as File[];
+    const file = files[0];
 
     // Retrieve authentication parameters for the upload.
     let authParams;
@@ -157,19 +183,24 @@ export default function Post() {
     // ここにFirestoreアップロード処理
     console.log(inputValue);
     console.log(filedata);
+    console.log(dateTime);
+    
 
     try {
       const reFiledata = filedata as { url: string };
       // Firestore にデータを追加
       const docRef = await addDoc(collection(db, "posts"), {
         timestamp: new Date(),
-        date: inputValue.date,
+        // date: inputValue.date,
+        date: dateTime.toISOString(),
         comment: inputValue.comment,
         imageUrl: reFiledata.url,
       });
       console.log("Document written with ID: ", docRef.id);
 
       // フォームをクリア
+      setFileList([]);
+      setDateTime(dayjs());
       setInputValue({
         date: "",
         comment: "",
@@ -181,39 +212,55 @@ export default function Post() {
 
   const handleUpload = async () => {
     const fileData = await fileUpload();
+    console.log(fileData);
     if (fileData) {
       dataUpload(fileData);
     }
   };
 
+  // デザインデータ
+  const { TextArea } = Input;
+
   return (
-    <>
+    <div className={styles.post}>
       <form>
         <div>
           <label>ごはん画像</label>
-          <input type="file" accept=".jpg, .jpeg, .png" ref={fileInputRef} />
+          <Upload
+            listType="picture-card"
+            maxCount={1}
+            accept=".jpg, .jpeg, .png"
+            fileList={fileList}
+            onChange={handleFileChange}
+          >
+            + ごはん
+          </Upload>
         </div>
         <div>
           <label>日時</label>
-          <input
-            type="datetime-local"
-            onChange={handleInputChange}
-            value={inputValue.date}
+          <DatePicker
+            onChange={handleDateTimeChange}
             name="date"
-          ></input>
+            showTime
+            defaultValue={dayjs()}
+            format={"YYYY/MM/DD HH時"}
+          ></DatePicker>
         </div>
         <div>
           <label>コメント</label>
-          <textarea
+          <TextArea
             onChange={handleInputChange}
             value={inputValue.comment}
+            placeholder="コメント"
             name="comment"
-          ></textarea>
+            rows={3}
+            showCount
+          ></TextArea>
         </div>
         <input type="button" onClick={handleUpload} value="投稿"></input>
         <br />
         Upload progress: <progress value={progress} max={100}></progress>
       </form>
-    </>
+    </div>
   );
 }

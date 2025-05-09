@@ -3,7 +3,7 @@
 import { useAuth } from "../context/authContext";
 import SignInButton from "../components/SignInButton";
 import LogoutButton from "../components/LogoutButton";
-import styles from "./post.module.scss"
+import styles from "./page.module.scss"
 
 export default function Settings() {
   const { currentUser, loading } = useAuth();
