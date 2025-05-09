@@ -1,4 +1,4 @@
-"use client"; // This component must be a client component
+"use client";
 
 import {
   ImageKitAbortError,
@@ -7,7 +7,7 @@ import {
   ImageKitUploadNetworkError,
   upload,
 } from "@imagekit/next";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { db } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
@@ -15,12 +15,8 @@ import { addDoc, collection } from "firebase/firestore";
 import styles from "./page.module.scss";
 import {
   Input,
-  ConfigProvider,
   Upload,
   DatePicker,
-  TimePicker,
-  DatePickerProps,
-  TimePickerProps,
   UploadFile,
 } from "antd";
 import dayjs, { Dayjs } from "dayjs";
