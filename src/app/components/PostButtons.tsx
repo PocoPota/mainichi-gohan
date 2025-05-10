@@ -1,6 +1,6 @@
 "use client";
 
-import { CoffeeOutlined, SettingOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, SettingOutlined } from "@ant-design/icons";
 import { FloatButton } from "antd";
 
 type Props = {
