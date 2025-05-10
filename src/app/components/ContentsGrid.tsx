@@ -61,10 +61,12 @@ export default function ContentsGrid() {
         <ul className={styles.contentsGrid}>
           {items.map((item) => (
             <li className={styles.item} key={item.id}>
-              <div>
-                <img src={item.imageUrl}></img>
-              </div>
-              {item.comment}
+              <a href={`/${item.id}`}>
+                <div>
+                  <img src={item.imageUrl}></img>
+                </div>
+                {item.comment}
+              </a>
             </li>
           ))}
         </ul>

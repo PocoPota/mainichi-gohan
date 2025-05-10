@@ -1,0 +1,29 @@
+.onePost {
+  width: 800px;
+  margin: 30px auto;
+  ul {
+    padding: 0;
+    list-style: none;
+    li {
+      text-align: center;
+      img {
+        max-width: 800px;
+        max-height: 700px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+@media (width <= 750px) {
+  .onePost {
+    width: 95%;
+    ul {
+      li {
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
