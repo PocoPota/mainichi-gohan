@@ -5,11 +5,12 @@ import { db } from "../lib/firebase";
 import styles from "./page.module.scss";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export default async function OnePost({ params }: PageProps) {
-  const docRef = doc(db, "posts", params.slug);
+  const {slug} = await params;
+  const docRef = doc(db, "posts", slug);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
