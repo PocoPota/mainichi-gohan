@@ -9,7 +9,7 @@ type PageProps = {
 };
 
 export default async function OnePost({ params }: PageProps) {
-  const {slug} = await params;
+  const { slug } = await params;
   const docRef = doc(db, "posts", slug);
   const docSnap = await getDoc(docRef);
 
