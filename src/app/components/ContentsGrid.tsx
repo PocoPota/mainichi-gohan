@@ -45,7 +45,7 @@ export default function ContentsGrid() {
   }, []); // 空の依存配列により、コンポーネメントのマウント時に一度だけ実行
 
   if (loading) {
-    return <Loading/>; // 読み込み中の表示
+    return <Loading />; // 読み込み中の表示
   }
 
   if (error) {

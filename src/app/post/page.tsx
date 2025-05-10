@@ -45,7 +45,7 @@ export default function Post() {
   if (loading) {
     return (
       <div className={styles.post}>
-        <Loading/>
+        <Loading />
       </div>
     );
   }

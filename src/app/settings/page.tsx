@@ -10,7 +10,7 @@ export default function Settings() {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   if (!currentUser) {

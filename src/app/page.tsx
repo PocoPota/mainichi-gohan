@@ -11,7 +11,7 @@ export default function Home() {
 
   // 認証状態のロード中は何も表示しないか、ローディング表示
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (

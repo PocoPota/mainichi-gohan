@@ -1,14 +1,14 @@
-.loading{
+.loading {
   width: 100%;
   height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  img{
+  img {
     width: 300px;
   }
-  p{
+  p {
     font-size: 20px;
     font-weight: 800;
   }
