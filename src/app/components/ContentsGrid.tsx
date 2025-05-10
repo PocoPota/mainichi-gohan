@@ -5,6 +5,7 @@ import styles from "./ContentsGrid.module.scss";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore"; // getDocs をインポート'
 import { db } from "../lib/firebase";
+import Loading from "./Loading";
 
 interface Item {
   comment: string;
@@ -44,7 +45,7 @@ export default function ContentsGrid() {
   }, []); // 空の依存配列により、コンポーネメントのマウント時に一度だけ実行
 
   if (loading) {
-    return <p>アイテムを読み込み中...</p>; // 読み込み中の表示
+    return <Loading/>; // 読み込み中の表示
   }
 
   if (error) {
