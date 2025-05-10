@@ -15,7 +15,6 @@ export default function Settings() {
   if (!currentUser) {
     return (
       <div className={styles.settings}>
-        <h1>設定</h1>
         <div className={styles.userInfo}>
           <p>まだサインインしていません。</p>
         </div>
@@ -28,7 +27,6 @@ export default function Settings() {
 
   return (
     <div className={styles.settings}>
-      <h1>設定</h1>
       <div className={styles.userInfo}>
         {currentUser.photoURL && (
           <img
