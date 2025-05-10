@@ -3,8 +3,9 @@
 import styles from "./ContentsGrid.module.scss";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore"; // getDocs をインポート'
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; // getDocs をインポート'
 import { db } from "../lib/firebase";
+import Loading from "./Loading";
 
 interface Item {
   comment: string;
@@ -22,7 +23,9 @@ export default function ContentsGrid() {
     const fetchItems = async () => {
       try {
         // 'items' コレクションへの参照を作成
-        const querySnapshot = await getDocs(collection(db, "posts"));
+        const querySnapshot = await getDocs(
+          query(collection(db, "posts"), orderBy("date", "desc")),
+        );
 
         // 取得したドキュメントを加工してStateに格納
         const itemsList: Item[] = querySnapshot.docs.map((doc) => ({
@@ -42,7 +45,7 @@ export default function ContentsGrid() {
   }, []); // 空の依存配列により、コンポーネメントのマウント時に一度だけ実行
 
   if (loading) {
-    return <p>アイテムを読み込み中...</p>; // 読み込み中の表示
+    return <Loading />; // 読み込み中の表示
   }
 
   if (error) {
@@ -58,10 +61,12 @@ export default function ContentsGrid() {
         <ul className={styles.contentsGrid}>
           {items.map((item) => (
             <li className={styles.item} key={item.id}>
-              <div>
-                <img src={item.imageUrl}></img>
-              </div>
-              {item.comment}
+              <a href={`/${item.id}`}>
+                <div>
+                  <img src={item.imageUrl}></img>
+                </div>
+                {item.comment}
+              </a>
             </li>
           ))}
         </ul>

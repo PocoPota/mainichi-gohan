@@ -4,12 +4,13 @@ import { useAuth } from "../context/authContext";
 import SignInButton from "../components/SignInButton";
 import LogoutButton from "../components/LogoutButton";
 import styles from "./page.module.scss";
+import Loading from "../components/Loading";
 
 export default function Settings() {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return <p>認証状態を確認中...</p>;
+    return <Loading />;
   }
 
   if (!currentUser) {

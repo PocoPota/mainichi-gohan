@@ -15,6 +15,7 @@ import { addDoc, collection } from "firebase/firestore";
 import styles from "./page.module.scss";
 import { Input, Upload, DatePicker, UploadFile, Button } from "antd";
 import dayjs, { Dayjs } from "dayjs";
+import Loading from "../components/Loading";
 
 const { TextArea } = Input;
 
@@ -44,7 +45,7 @@ export default function Post() {
   if (loading) {
     return (
       <div className={styles.post}>
-        <p>認証状態を確認中...</p>
+        <Loading />
       </div>
     );
   }
