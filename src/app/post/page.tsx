@@ -176,7 +176,6 @@ export default function Post() {
     <div className={styles.post}>
       <form>
         <div>
-          <label>ごはん画像</label>
           <Upload
             listType="picture-card"
             maxCount={1}
@@ -188,7 +187,6 @@ export default function Post() {
           </Upload>
         </div>
         <div>
-          <label>日時</label>
           <DatePicker
             onChange={handleDateTimeChange}
             name="date"
@@ -198,8 +196,8 @@ export default function Post() {
           ></DatePicker>
         </div>
         <div>
-          <label>コメント</label>
           <TextArea
+            className={styles.commentForm}
             onChange={handleCommentChange}
             value={comment}
             placeholder="コメント"

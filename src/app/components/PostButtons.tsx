@@ -1,6 +1,7 @@
 "use client";
 
-import styles from "./PostsButtons.module.scss";
+import { CoffeeOutlined, SettingOutlined } from "@ant-design/icons";
+import { FloatButton } from "antd";
 
 type Props = {
   isLogin: boolean;
@@ -9,21 +10,27 @@ type Props = {
 export default function PostButtons(props: Props) {
   if (props.isLogin) {
     return (
-      <div className={styles.buttons}>
-        <div className={styles.button}>
-          <a href="/settings">設定</a>
-        </div>
-        <div className={styles.button}>
-          <a href="/post">投稿</a>
-        </div>
+      <div>
+        <FloatButton
+          href="/settings"
+          icon={<SettingOutlined />}
+          style={{ insetBlockEnd: 90, insetInlineEnd: 30 }}
+        ></FloatButton>
+        <FloatButton
+          href="/post"
+          icon={<CoffeeOutlined />}
+          style={{ insetBlockEnd: 30, insetInlineEnd: 30 }}
+        ></FloatButton>
       </div>
     );
   } else {
     return (
-      <div className={styles.buttons}>
-        <div className={styles.button}>
-          <a href="/settings">設定</a>
-        </div>
+      <div>
+        <FloatButton
+          href="/settings"
+          icon={<SettingOutlined />}
+          style={{ insetBlockEnd: 30, insetInlineEnd: 30 }}
+        ></FloatButton>
       </div>
     );
   }
