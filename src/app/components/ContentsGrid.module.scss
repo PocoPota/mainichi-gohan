@@ -1,10 +1,18 @@
-.contentsGrid {
-  column-count: 3;
-}
-
-.post {
-  break-inside: avoid;
-  margin-bottom: 20px;
-  background: aquamarine;
-  border-radius: 10px;
+.contents {
+  width: 1200px;
+  .contentsGrid {
+    column-count: 4;
+    .item {
+      width: 100%;
+      break-inside: avoid;
+      margin-bottom: 20px;
+      padding: 0;
+      list-style: none;
+      img {
+        width: 100%;
+        border-radius: 10px;
+        border: solid black 1px;
+      }
+    }
+  }
 }

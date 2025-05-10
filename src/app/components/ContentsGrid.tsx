@@ -51,14 +51,14 @@ export default function ContentsGrid() {
 
   console.log(items);
   return (
-    <div>
+    <div className={styles.contents}>
       <h1>アイテムリスト</h1>
       {items.length === 0 ? (
         <p>アイテムが見つかりませんでした。</p>
       ) : (
         <ul className={styles.contentsGrid}>
           {items.map((item) => (
-            <li className={styles.post} key={item.id}>
+            <li className={styles.item} key={item.id}>
               <div>
                 <img src={item.imageUrl}></img>
               </div>
