@@ -1,7 +1,7 @@
 .contents {
-  width: 1200px;
+  width: 95%;
+  margin-top: 20px;
   .contentsGrid {
-    column-count: 4;
     .item {
       width: 100%;
       break-inside: avoid;
@@ -11,8 +11,34 @@
       img {
         width: 100%;
         border-radius: 10px;
-        border: solid black 1px;
       }
     }
+  }
+}
+
+// 分割設定
+@media (1600px <= width){
+  .contents{
+    width: 1450px;
+  }
+}
+@media (1400px <= width){
+  .contentsGrid{
+    column-count: 5;
+  }
+}
+@media (1100px <= width < 1400px){
+  .contentsGrid{
+    column-count: 4;
+  }
+}
+@media (700px <= width < 1100px){
+  .contentsGrid{
+    column-count: 3;
+  }
+}
+@media (width < 700px){
+  .contentsGrid{
+    column-count: 2;
   }
 }

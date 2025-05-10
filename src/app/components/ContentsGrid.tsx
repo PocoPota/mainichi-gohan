@@ -52,7 +52,6 @@ export default function ContentsGrid() {
   console.log(items);
   return (
     <div className={styles.contents}>
-      <h1>アイテムリスト</h1>
       {items.length === 0 ? (
         <p>アイテムが見つかりませんでした。</p>
       ) : (
