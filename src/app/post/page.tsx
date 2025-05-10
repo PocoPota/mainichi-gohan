@@ -197,7 +197,7 @@ export default function Post() {
         </div>
         <div>
           <TextArea
-          className={styles.commentForm}
+            className={styles.commentForm}
             onChange={handleCommentChange}
             value={comment}
             placeholder="コメント"
