@@ -3,7 +3,7 @@
 import styles from "./ContentsGrid.module.scss";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore"; // getDocs をインポート'
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; // getDocs をインポート'
 import { db } from "../lib/firebase";
 
 interface Item {
@@ -22,7 +22,7 @@ export default function ContentsGrid() {
     const fetchItems = async () => {
       try {
         // 'items' コレクションへの参照を作成
-        const querySnapshot = await getDocs(collection(db, "posts"));
+        const querySnapshot = await getDocs(query(collection(db, "posts"), orderBy("date", "desc")));
 
         // 取得したドキュメントを加工してStateに格納
         const itemsList: Item[] = querySnapshot.docs.map((doc) => ({
