@@ -3,6 +3,7 @@
 import { useAuth } from "./context/authContext";
 import ContentsGrid from "./components/ContentsGrid";
 import PostButtons from "./components/PostButtons";
+import styles from "./page.module.scss";
 
 export default function Home() {
   const { currentUser, loading } = useAuth();
@@ -13,7 +14,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className={styles.top}>
       <ContentsGrid />
       <PostButtons isLogin={currentUser != null} />
     </div>
