@@ -16,8 +16,6 @@ export default function LogoutButton() {
     setLoading(true);
     try {
       await signOut(auth);
-      // ログアウト成功
-      console.log("ログアウトしました");
       router.push("/");
     } catch (error: any) {
       console.error("ログアウトエラー:", error);

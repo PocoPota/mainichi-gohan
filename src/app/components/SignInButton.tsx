@@ -15,9 +15,6 @@ export default function SignInButton() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // ログイン成功！ユーザー情報がauthオブジェクトに反映されます。
-      console.log("Google Sign-in successful!");
-      // ログイン後のリダイレクトなどの処理をここに追加できます。
     } catch (error: any) {
       console.error("Error signing in with Google:", error);
       // エラー処理

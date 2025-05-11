@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 import styles from "./page.module.scss";
+import dayjs from "dayjs";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -25,7 +26,7 @@ export default async function OnePost({ params }: PageProps) {
         <li>
           <img src={post.imageUrl}></img>
         </li>
-        <li>日時：{post.date}</li>
+        <li>{dayjs(post.date).format("YYYY/MM/DD HH時")}</li>
         <li>{post.comment}</li>
       </ul>
     </div>
