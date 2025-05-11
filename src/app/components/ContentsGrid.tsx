@@ -52,7 +52,6 @@ export default function ContentsGrid() {
     return <p>エラー: {error}</p>;
   }
 
-  console.log(items);
   return (
     <div className={styles.contents}>
       {items.length === 0 ? (
