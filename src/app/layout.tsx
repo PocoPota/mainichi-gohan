@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "まいにちごはん",
   description: "まいにちのごはん",
-  openGraph:{
+  openGraph: {
     images: {
-      url: "/ogp.png"
-    }
-  }
+      url: "/ogp.png",
+    },
+  },
 };
 
 export default function RootLayout({
